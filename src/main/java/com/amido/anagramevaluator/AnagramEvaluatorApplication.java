@@ -1,5 +1,7 @@
 package com.amido.anagramevaluator;
 
+import com.amido.anagramevaluator.service.AnagramService;
+import com.amido.anagramevaluator.service.AnagramServiceImpl;
 import com.amido.anagramevaluator.service.DataLoaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -10,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 public class AnagramEvaluatorApplication implements CommandLineRunner {
 
-    private final DataLoaderService dataLoaderService;
+    private final AnagramService anagramService;
 
     public static void main(String[] args) {
         SpringApplication.run(AnagramEvaluatorApplication.class, args);
@@ -21,6 +23,6 @@ public class AnagramEvaluatorApplication implements CommandLineRunner {
         if (args.length != 1) {
             throw new Exception("Please specify only the path to your desired wordlist");
         }
-        dataLoaderService.loadWordsFromFile(args[0]);
+        anagramService.findAnagramsInWordlist(args[0]).forEach(System.out::println);
     }
 }

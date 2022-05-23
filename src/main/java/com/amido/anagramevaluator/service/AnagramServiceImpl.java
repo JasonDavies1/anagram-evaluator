@@ -29,7 +29,6 @@ public class AnagramServiceImpl implements AnagramService {
                 ));
 
         return anagrams.values().stream()
-                .filter(strings -> strings.size() > 1)
                 .map(strings -> String.join(", ", strings))
                 .collect(Collectors.toList());
     }

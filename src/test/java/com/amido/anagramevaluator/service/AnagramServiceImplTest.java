@@ -21,7 +21,7 @@ class AnagramServiceImplTest {
     private final AnagramServiceImpl anagramService = new AnagramServiceImpl(dataLoaderService);
 
     @Test
-    public void givenSingularWordIsLoadedFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldBeContainNoValues(){
+    public void givenSingularWordIsLoadedFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldBeContainSingleElementForWord(){
         given(dataLoaderService.loadWordsFromFile(FILE_PATH))
                 .willReturn(List.of(
                         new Word(
@@ -36,11 +36,13 @@ class AnagramServiceImplTest {
 
         final List<String> result = anagramService.findAnagramsInWordlist(FILE_PATH);
 
-        assertThat(result).isEmpty();
+        assertThat(result)
+                .singleElement()
+                .satisfies(element -> assertThat(element).isEqualTo("abc"));
     }
 
     @Test
-    public void givenTwoWordsAreLoadedThatAreNotAnagramsFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldContainNoValues(){
+    public void givenTwoWordsAreLoadedThatAreNotAnagramsFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldTwoSeparateElements(){
         given(dataLoaderService.loadWordsFromFile(FILE_PATH))
                 .willReturn(List.of(
                         new Word(
@@ -63,7 +65,8 @@ class AnagramServiceImplTest {
 
         final List<String> result = anagramService.findAnagramsInWordlist(FILE_PATH);
 
-        assertThat(result).isEmpty();
+        assertThat(result)
+                .containsExactlyInAnyOrder("abc", "def");
     }
 
     @Test
