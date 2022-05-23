@@ -29,7 +29,7 @@ public class AnagramServiceImpl implements AnagramService {
                 ));
 
         return anagrams.values().stream()
-                .map(strings -> String.join(", ", strings))
+                .map(strings -> String.join(",", strings))
                 .collect(Collectors.toList());
     }
 }
