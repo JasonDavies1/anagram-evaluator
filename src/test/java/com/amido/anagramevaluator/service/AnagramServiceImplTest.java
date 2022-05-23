@@ -1,16 +1,12 @@
 package com.amido.anagramevaluator.service;
 
 import com.amido.anagramevaluator.model.Word;
-import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 

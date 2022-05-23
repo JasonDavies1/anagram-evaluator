@@ -1,8 +1,6 @@
 package com.amido.anagramevaluator;
 
 import com.amido.anagramevaluator.service.AnagramService;
-import com.amido.anagramevaluator.service.AnagramServiceImpl;
-import com.amido.anagramevaluator.service.DataLoaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
