@@ -22,27 +22,26 @@ public class DataLoaderServiceImplTest {
     public void givenFilePathDoesNotLeadToFile_WhenLoadingWords_ThenNoWordsAreReturned() {
         final String filePath = "nonsense";
 
-        final Optional<List<Word>> result = dataLoaderService.loadWordsFromFile(filePath);
+        final List<Word> result = dataLoaderService.loadWordsFromFile(filePath);
 
-        assertThat(result).isEmpty();
+        assertThat(result.isEmpty())
+                .isTrue();
     }
 
     @Test
     public void givenFilePathLeadsToFile_WhenLoadingWords_ThenAllWordsWithinTheFileAreReturned() {
         final String filePath = "src/test/resources/example_words.txt";
 
-        final Optional<List<Word>> result = dataLoaderService.loadWordsFromFile(filePath);
+        final List<Word> result = dataLoaderService.loadWordsFromFile(filePath);
 
-        assertThat(result).isNotEmpty();
-        final List<Word> words = result.get();
-        assertThat(words.size())
+        assertThat(result.size())
                 .isEqualTo(7);
     }
     @Test
     public void givenFilePathLeadsToFileWithSevenWords_WhenLoadingWords_ThenStringWordsWillBeConvertedSevenTimes(){
         final String filePath = "src/test/resources/example_words.txt";
 
-        final Optional<List<Word>> result = dataLoaderService.loadWordsFromFile(filePath);
+        dataLoaderService.loadWordsFromFile(filePath);
 
         then(wordConverterService)
                 .should(times(7))

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +18,15 @@ import java.util.Optional;
 public class DataLoaderServiceImpl implements DataLoaderService {
 
     private final WordConverterService wordConverterService;
+
     @Override
-    public Optional<List<Word>> loadWordsFromFile(final String fileLocation) {
+    public List<Word> loadWordsFromFile(final String fileLocation) {
         try {
             final String fileContents = Files.readString(Path.of(fileLocation));
-            final List<Word> words = fileContents.lines().map(wordConverterService::convertStringToWord).toList();
-            return Optional.of(words);
+            return fileContents.lines().map(wordConverterService::convertStringToWord).toList();
         } catch (final IOException io) {
             log.error("File could not be found at location: {}", fileLocation);
         }
-        return Optional.empty();
+        return new ArrayList<>();
     }
 }
