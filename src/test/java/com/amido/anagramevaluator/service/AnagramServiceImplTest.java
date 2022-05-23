@@ -21,18 +21,6 @@ class AnagramServiceImplTest {
     private final AnagramServiceImpl anagramService = new AnagramServiceImpl(dataLoaderService);
 
     @Test
-    public void givenNoWordsAreLoadedFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldContainErrorMessage() {
-        given(dataLoaderService.loadWordsFromFile(FILE_PATH))
-                .willReturn(new ArrayList<>());
-
-        final List<String> result = anagramService.findAnagramsInWordlist(FILE_PATH);
-
-        assertThat(result)
-                .singleElement()
-                .satisfies(element -> assertThat(element).isEqualTo("No words loaded from supplied file - is the file empty?"));
-    }
-
-    @Test
     public void givenSingularWordIsLoadedFromFile_WhenEvaluatingAnagrams_ThenResultingListShouldBeContainNoValues(){
         given(dataLoaderService.loadWordsFromFile(FILE_PATH))
                 .willReturn(List.of(

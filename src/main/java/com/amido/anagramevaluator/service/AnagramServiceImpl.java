@@ -17,10 +17,6 @@ public class AnagramServiceImpl implements AnagramService {
     public List<String> findAnagramsInWordlist(final String filePath) {
         final List<Word> words = dataLoaderService.loadWordsFromFile(filePath);
 
-        if (words.isEmpty()) {
-            return Collections.singletonList("No words loaded from supplied file - is the file empty?");
-        }
-
         final Map<Map<Character, Integer>, List<String>> anagrams = new HashMap<>();
         words.forEach(w -> Optional.ofNullable(anagrams.get(w.getCharacterOccurrences()))
                 .ifPresentOrElse(

@@ -1,5 +1,7 @@
 package com.amido.anagramevaluator.service;
 
+import com.amido.anagramevaluator.exception.EmptyWordlistException;
+import com.amido.anagramevaluator.exception.WordlistNotFoundException;
 import com.amido.anagramevaluator.model.Word;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.then;
@@ -19,13 +22,12 @@ public class DataLoaderServiceImplTest {
     private final DataLoaderServiceImpl dataLoaderService = new DataLoaderServiceImpl(wordConverterService);
 
     @Test
-    public void givenFilePathDoesNotLeadToFile_WhenLoadingWords_ThenNoWordsAreReturned() {
+    public void givenFilePathDoesNotLeadToFile_WhenLoadingWords_ThenExceptionIsThrown() {
         final String filePath = "nonsense";
 
-        final List<Word> result = dataLoaderService.loadWordsFromFile(filePath);
-
-        assertThat(result.isEmpty())
-                .isTrue();
+        assertThatCode(() -> dataLoaderService.loadWordsFromFile(filePath))
+                .isInstanceOf(WordlistNotFoundException.class)
+                .hasMessage("Wordlist not found at location: nonsense");
     }
 
     @Test
@@ -37,8 +39,9 @@ public class DataLoaderServiceImplTest {
         assertThat(result.size())
                 .isEqualTo(7);
     }
+
     @Test
-    public void givenFilePathLeadsToFileWithSevenWords_WhenLoadingWords_ThenStringWordsWillBeConvertedSevenTimes(){
+    public void givenFilePathLeadsToFileWithSevenWords_WhenLoadingWords_ThenStringWordsWillBeConvertedSevenTimes() {
         final String filePath = "src/test/resources/example_words.txt";
 
         dataLoaderService.loadWordsFromFile(filePath);
@@ -46,6 +49,24 @@ public class DataLoaderServiceImplTest {
         then(wordConverterService)
                 .should(times(7))
                 .convertStringToWord(anyString());
+    }
+
+    @Test
+    public void givenFilePathLeadsToFileWithNoContent_WhenLoadingWords_ThenExceptionIsThrown() {
+        final String filePath = "src/test/resources/empty_wordlist.txt";
+
+        assertThatCode(() -> dataLoaderService.loadWordsFromFile(filePath))
+                .isInstanceOf(EmptyWordlistException.class)
+                .hasMessage("The wordlist found at location " + filePath + " contained no content");
+    }
+
+    @Test
+    public void givenFilePathLeadsToFileWithOnlyBlankLines_WhenLoadingWords_ThenExceptionIsThrown() {
+        final String filePath = "src/test/resources/wordlist_with_only_blank_lines.txt";
+
+        assertThatCode(() -> dataLoaderService.loadWordsFromFile(filePath))
+                .isInstanceOf(EmptyWordlistException.class)
+                .hasMessage("The wordlist found at location " + filePath + " contained no content");
     }
 
 }
