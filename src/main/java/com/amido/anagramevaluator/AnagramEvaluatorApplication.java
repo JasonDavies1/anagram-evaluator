@@ -21,6 +21,7 @@ public class AnagramEvaluatorApplication implements CommandLineRunner {
         if (args.length != 1) {
             throw new Exception("Please specify only the path to your desired wordlist");
         }
-        anagramService.findAnagramsInWordlist(args[0]).forEach(System.out::println);
+        anagramService.findAnagramsInWordlist(args[0])
+                .forEach(System.out::println);
     }
 }

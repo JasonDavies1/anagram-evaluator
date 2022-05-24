@@ -9,5 +9,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Word {
     private final String word;
-    private final Map<Character, Integer> characterOccurrences;
+    private final CharacterDistribution characterDistribution;
+//    private final Map<Character, Integer> characterOccurrences;
 }

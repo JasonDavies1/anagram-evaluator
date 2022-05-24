@@ -1,5 +1,6 @@
 package com.amido.anagramevaluator.service;
 
+import com.amido.anagramevaluator.model.CharacterDistribution;
 import com.amido.anagramevaluator.model.Word;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +23,7 @@ class AnagramServiceImplTest {
                 .willReturn(List.of(
                         new Word(
                                 "abc",
-                                Map.of(
-                                        'a', 1,
-                                        'b', 1,
-                                        'c', 1
-                                )
+                                CharacterDistribution.fromStringWord("abc")
                         )
                 ));
 
@@ -43,19 +40,11 @@ class AnagramServiceImplTest {
                 .willReturn(List.of(
                         new Word(
                                 "abc",
-                                Map.of(
-                                        'a', 1,
-                                        'b', 1,
-                                        'c', 1
-                                )
+                                CharacterDistribution.fromStringWord("abc")
                         ),
                         new Word(
                                 "def",
-                                Map.of(
-                                        'd', 1,
-                                        'e', 1,
-                                        'f', 1
-                                )
+                                CharacterDistribution.fromStringWord("def")
                         )
                 ));
 
@@ -71,19 +60,11 @@ class AnagramServiceImplTest {
                 .willReturn(List.of(
                         new Word(
                                 "abc",
-                                Map.of(
-                                        'a', 1,
-                                        'b', 1,
-                                        'c', 1
-                                )
+                                CharacterDistribution.fromStringWord("abc")
                         ),
                         new Word(
                                 "cba",
-                                Map.of(
-                                        'c', 1,
-                                        'b', 1,
-                                        'a', 1
-                                )
+                                CharacterDistribution.fromStringWord("cba")
                         )
                 ));
 

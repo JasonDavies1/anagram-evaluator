@@ -1,5 +1,6 @@
 package com.amido.anagramevaluator.service;
 
+import com.amido.anagramevaluator.model.CharacterDistribution;
 import com.amido.anagramevaluator.model.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,14 @@ public class AnagramServiceImpl implements AnagramService {
     public List<String> findAnagramsInWordlist(final String filePath) {
         final List<Word> words = dataLoaderService.loadWordsFromFile(filePath);
 
-        final Map<Map<Character, Integer>, List<String>> anagrams = new HashMap<>();
-        words.forEach(w -> Optional.ofNullable(anagrams.get(w.getCharacterOccurrences()))
+        final Map<CharacterDistribution, List<String>> anagrams = new HashMap<>();
+        words.forEach(w -> Optional.ofNullable(anagrams.get(w.getCharacterDistribution()))
                 .ifPresentOrElse(
                         anagramList -> anagramList.add(w.getWord()),
                         () -> {
                             final List<String> initialAnagramList = new ArrayList<>();
                             initialAnagramList.add(w.getWord());
-                            anagrams.put(w.getCharacterOccurrences(), initialAnagramList);
+                            anagrams.put(w.getCharacterDistribution(), initialAnagramList);
                         }
                 ));
 
