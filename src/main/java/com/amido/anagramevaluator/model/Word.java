@@ -3,8 +3,6 @@ package com.amido.anagramevaluator.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
-
 @Getter
 @RequiredArgsConstructor
 public class Word {
