@@ -25,7 +25,7 @@ class WordConverterServiceImplTest {
 
         final Word result = wordConverterService.convertStringToWord(wordToConvert);
 
-        assertThat(result.getCharacterOccurrences())
+        assertThat(result.getCharacterDistribution().getCharacterDistribution())
                 .satisfies(map -> {
                     assertThat(map.get('b')).isEqualTo(1);
                     assertThat(map.get('a')).isEqualTo(3);
@@ -41,7 +41,7 @@ class WordConverterServiceImplTest {
 
         assertThat(result.getWord())
                 .isEqualTo(alphanumericWordToConvert);
-        assertThat(result.getCharacterOccurrences())
+        assertThat(result.getCharacterDistribution().getCharacterDistribution())
                 .satisfies(map -> {
                     assertThat(map.get('B')).isEqualTo(1);
                     assertThat(map.get('4')).isEqualTo(1);

@@ -9,7 +9,7 @@ printed on its own line.
 In addition to the listed assumptions on the specification, I assume the following: 
 
 - All words given should be processed as-is with no changes to casing. 
-- Similarly, no extraneous whitespacing should be removed from the start or end of a line/word.
+- Similarly, no extraneous whitespace characters should be removed from the start or end of a line/word.
 
 ## Chosen Language
 
@@ -53,20 +53,21 @@ to conclude that the parsing of the wordlist will run in ***O*(N)** as the initi
 ### Conversion
 
 Each `String` word goes through this conversion which will produce a `Word` model containing both the original `String` 
-that was read in, and a `Map<Character, Integer>` denoting the number of times that a character appeared within the
-`String`. The creation of this `Map` requires one pass of the input string. I believe it is therefore reasonable again
-to conclude that this will run in ***O*(N)** as the length of the word of size N scales up and down. 
+that was read in, and a `CharacterDistribution` object. The purpose of `CharacterDistribution` model is to denote the 
+number of times that a character appeared within the `String`. The creation of this model requires one pass of the input
+string. I believe it is therefore reasonable again to conclude that this will run in ***O*(N)** as the length of the 
+word of size N scales up and down. 
 
 ### Detection
 
 By the point of detection, a `List<Word>` has been populated complete with character distribution maps per-word.
 Detection applies a similar form of logic to the identification of the character distribution map whereby the 
-character distribution map acts as the key to a `Map<Map<Character, Integer>, List<String>>`.
-Given that two `Word` models contain the same hashed key, the `String` representation of the `Word` will be added as an 
-entry to the overall Map value. 
+character distribution map acts as the key to a `Map<CharacterDistribution, List<String>>`. Given that two `Word` models
+contain the same hashed key, the `String` representation of the `Word` will be added as an entry to the overall Map 
+value. 
 
 This again requires one pass of the `List<Word>` collection to deduce the presence of anagrams held in the wordlist. The
-resulting values held in the `Map<Map<Character, Integer>, List<String>>` are then extracted and comma separated as per 
+resulting values held in the `Map<CharacterDistribution, List<String>>` are then extracted and comma separated as per 
 the requirements, requiring a single pass of the maps' values. 
 
 Due to these factors, I would say that this portion of the application again runs in ***O*(N)** as the time taken to
@@ -84,12 +85,12 @@ original word would be irretrievable beyond the invocation of the `WordConverter
 Due to this I decided to include both the original `String` and the character distribution in a clear model. Length was
 *not* included here and would only be a consideration in the instance that the provided wordlists were not sorted prior. 
 
-## Usage of a `Map<Map<Character, Integer>, List<String>>`
+## Usage of a `Map<CharacterDistribution, List<String>>`
 
 At the point of creation of this collection, the focus shifts from processing "words" to processing entities which have
 the same hashed key value - their character distribution. Usage of the `Map` interface allows for the following things: 
-- *Cohesion with the `Optional` interface* - it is simple to check for a hashed character distribution `Map` entry and act
-  accordingly depending on its presence/absence. 
+- *Cohesion with the `Optional` interface* - it is simple to check for a hashed character distribution `Map` entry and 
+  act accordingly depending on its presence/absence. 
 - *Automatic anagram detection* - given that a key already exists, this indicates that a matching word has already been 
   processed and thus an anagram exists. 
 - *Zero word comparisons* - it is important to note that at no point does this application ever compare two words in
@@ -111,4 +112,5 @@ when the conditions of use are not met resulting in broken functionality.
 
 - Provide a benchmark performance test giving an idea of how long the application takes to process given wordlist sizes.
 - Add integration tests with word lists of different sizes.
-- Investigate if there are more optimal solutions for anagram detection. 
+- Investigate if there are more optimal solutions for anagram detection.
+- Use aspect orientated programming to benchmark performance, through time, of inner '@Service' annotated classes. 
